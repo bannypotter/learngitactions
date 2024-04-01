@@ -1,3 +1,8 @@
+env:
+  PYTHON_VERSION: '3.8'
+  WORKING_DIRECTORY: './src/'
+  STARTUP_COMMAND: ''
+  
 name: GitHub Actions Demo
 on: push
 jobs:
@@ -21,21 +26,13 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: ${{ env.PYTHON_VERSION }}
       
       - name: Create and start virtual environment
         run: |
             python -m venv venv
             source venv/bin/activate
-      
-      - name: Set up dependency caching for faster installs
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-      
+        
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
@@ -45,13 +42,13 @@ jobs:
 
       # Optional: Add a step to run tests here (PyTest, Django test suites, etc.)
 
-      - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-app
-          path: |
-            .
-            !venv/
+      # - name: Upload artifact for deployment jobs
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: python-app
+      #     path: |
+      #       .
+      #       !venv/
 
       - name: Log into Azure
         uses: azure/login@v1
@@ -67,5 +64,15 @@ jobs:
           template: ${{ github.workspace }}/deployment/app-deployment.bicep
           parameters: "appServicePlanName=bannyappplan webAppName=${{ secrets.WEBAPP_NAME }}"
           failOnStdErr: false
+      
+      - uses: azure/appservice-settings@v1
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          mask-inputs: false
+          general-settings-json: '{"linuxFxVersion": "PYTHON|${{ env.PYTHON_VERSION }}"}' #'General configuration settings as Key Value pairs'
 
-      - run: az webapp deployment github-actions add --repo "bannypotter/learngitactions" --resource-group ${{ secrets.AZURE_RG }} --branch main --name ${{ secrets.WEBAPP_NAME }} 
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: ${{ env.WORKING_DIRECTORY }}
+          startup-command: ${{ env.STARTUP_COMMAND }}
