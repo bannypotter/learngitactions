@@ -67,3 +67,5 @@ jobs:
           template: ${{ github.workspace }}/deployment/app-deployment.bicep
           parameters: "appServicePlanName=bannyappplan webAppName=${{ secrets.WEBAPP_NAME }}"
           failOnStdErr: false
+
+      - run: az webapp deployment git-hub-actions add --repo "bannypotter/learngitactions" --resource-group ${{ secrets.AZURE_RG }} --branch main --name ${{ secrets.WEBAPP_NAME }} 
