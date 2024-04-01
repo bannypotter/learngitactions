@@ -1,8 +1,8 @@
 name: GitHub Actions Demo
 on: push
 jobs:
-  Example-Actions-Job:
-    name: Exploring GitHub Actions
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       # Display the event that triggered the workflow
@@ -16,59 +16,53 @@ jobs:
       
       # Use Action located in https://github.com/actions
       - name: Check out repository code
-        uses: actions/checkout@v2  
+        uses: actions/checkout@v4  
       
-      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Set up Python version
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
       
-      - run: echo "Your repository has been copied to the path ${{ github.workspace }} on the runner."
-      
-      - run: echo "The workflow is now ready to test your code on the runner."
-      
-      - name: conditional step when event name is pull request
-        if: ${{ github.event_name == 'pull_request' }}
-        run: echo "This event is a pull request"
-      
-      - name: List files in the repository
+      - name: Create and start virtual environment
         run: |
-          ls ${{ github.workspace }}
+            python -m venv venv
+            source venv/bin/activate
       
-      - name: Setup dotnet on runner
-        uses: actions/setup-dotnet@v1
+      - name: Set up dependency caching for faster installs
+        uses: actions/cache@v3
         with:
-          dotnet-version: '3.x'
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       
-      - name: Display dotnet version
-        run: dotnet --version
-      
-      - run: echo "The preinstalled tools are located here on the runner ${{ runner.tool_cache }}."
-      
-      - name: List files in tool cache
-        run: |
-          ls ${{ runner.tool_cache }}
-      
-      - run: echo "This job's status is ${{ job.status }}."
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - name: Log into Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          
-      - run: echo "Deploy the bicep file"
-      
-      - name: Deploy Bicep file
-        uses: azure/arm-deploy@v1
-        with:
-          scope: resourcegroup
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-          resourceGroupName: ${{ secrets.AZURE_RG }}
-          template: ${{ github.workspace }}/deployment/app-deployment.bicep
-          parameters: "appServicePlanName=bannyappplan webAppName=${{ secrets.WEBAPP_NAME }}"
-          failOnStdErr: false
-        
+      # Optional: Add a step to run tests here (PyTest, Django test suites, etc.)
 
-  # Second-Job:
-  #   name: The second job running on another runner
-  #   runs-on: windows-latest
-  #   needs: Example-Actions-Job
-  #   steps:
-  #     - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."
+      - name: Upload artifact for deployment jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-app
+          path: |
+            .
+            !venv/
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Log into Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy Bicep file
+      uses: azure/arm-deploy@v1
+      with:
+        scope: resourcegroup
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ${{ github.workspace }}/deployment/app-deployment.bicep
+        parameters: "appServicePlanName=bannyappplan webAppName=${{ secrets.WEBAPP_NAME }}"
+        failOnStdErr: false
