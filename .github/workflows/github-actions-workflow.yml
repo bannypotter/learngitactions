@@ -36,6 +36,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
       
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
