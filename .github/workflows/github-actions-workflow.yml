@@ -10,16 +10,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      # Display the event that triggered the workflow
-      - run: echo "The job was triggered by a ${{ github.event_name }} event."
-      
-      # Runner information
-      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub"
-      
-      # Information about the repository and branch
-      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      
-      # Use Action located in https://github.com/actions
+
       - name: Check out repository code
         uses: actions/checkout@v4  
       
@@ -32,23 +23,9 @@ jobs:
         run: |
             python -m venv venv
             source venv/bin/activate
-        
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-
-      # Optional: Add a step to run tests here (PyTest, Django test suites, etc.)
-
-      # - name: Upload artifact for deployment jobs
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: python-app
-      #     path: |
-      #       .
-      #       !venv/
 
       - name: Log into Azure
         uses: azure/login@v1
