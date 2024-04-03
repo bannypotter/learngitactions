@@ -25,7 +25,9 @@ jobs:
             source venv/bin/activate
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: | 
+          pip install --upgrade setuptools
+          pip install -r requirements.txt
 
       - name: Log into Azure
         uses: azure/login@v1
