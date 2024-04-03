@@ -1,1 +1,2 @@
 flask
+face_recognition
