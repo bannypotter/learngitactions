@@ -3,6 +3,9 @@ param(
     [string] [Parameter(Mandatory=$true)] $storageAccountName,
     [string] [Parameter(Mandatory=$true)] $resourceGroupName
 )
+
+$ErrorActionPreference = 'Stop'
+
 Write-Output "This is powershell executing as part of the deployment = $exampleParam"
 Write-Output "The environment user is $Env:UserName"
 
