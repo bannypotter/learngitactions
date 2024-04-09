@@ -91,6 +91,6 @@ resource powershell 'Microsoft.Resources/deploymentScripts@2023-08-01' = {
     timeout: 'PT30M'
     cleanupPreference: 'Always'
     scriptContent: loadTextContent('app-deployment.ps1')
-    arguments: '-exampleParam \\"this is an example\\" -storageAccountName \\"${storageAccount.name}\\" -resourceGroupName \\"${resourceGroup().name}\\"'
+    arguments: '-exampleParam \\"this is an example2\\" -storageAccountName \\"${storageAccount.name}\\" -resourceGroupName \\"${resourceGroup().name}\\"'
   }
 }
