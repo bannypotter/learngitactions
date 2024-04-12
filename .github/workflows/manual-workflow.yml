@@ -7,4 +7,6 @@ jobs:
         steps:
         - name: Run webhook
           run: |
-            curl -H 'X-Status: Awesome' -H 'Content-Type: application/json' https://www.toptal.com/developers/postbin/1712950287334-0518085097428 -d '{ "Id": 1 }'
+            curl -H 'X-Status: Awesome' \
+            -H 'Content-Type: application/json' https://www.toptal.com/developers/postbin/1712950287334-0518085097428 \
+            -d '{ "Id": 1 }'
