@@ -10,6 +10,7 @@ jobs:
             curl \
             -H 'X-Status: Awesome' \
             -H 'Content-Type: application/json' \
+            -H 'X-Tunnel-Authorization: tunnel ${{secrets.MS_TUNNEL_AUTH}}'
             -H 'Authorization: Bearer 12345' \
             https://1833kkkn-7178.uks1.devtunnels.ms/api/update-app-pool-deployment \
             -d '{"id":"33","deploymentStatus":"Deployed"}'
