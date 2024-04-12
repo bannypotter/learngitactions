@@ -7,4 +7,4 @@ jobs:
         steps:
         - uses: actions/checkout@v3
 
-        - run: sudo ./deployment/updateAppPoolsStatusScript.ps1 -authToken 123 -appPoolId 33 -deploymentStatus Deploying
+        - run: ./deployment/updateAppPoolsStatusScript.ps1 -authToken 123 -appPoolId 33 -deploymentStatus Deploying
