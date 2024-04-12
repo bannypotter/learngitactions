@@ -11,4 +11,4 @@ jobs:
             -H 'X-Status: Awesome' \
             -H 'Content-Type: application/json' \
             https://www.toptal.com/developers/postbin/1712950287334-0518085097428 \
-            -d {"id":"x","deploymentStatus":"Deployed"}
+            -d '{"id":"x","deploymentStatus":"Deployed"}'
