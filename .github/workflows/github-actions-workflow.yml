@@ -10,6 +10,9 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Run webhook
+        run: |
+          curl -H 'X-Status: Awesome' https://www.toptal.com/developers/postbin/1712950287334-0518085097428
 
       - name: Check out repository code
         uses: actions/checkout@v4  
