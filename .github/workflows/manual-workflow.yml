@@ -12,4 +12,5 @@ jobs:
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer 12345' \
             https://www.toptal.com/developers/postbin/1712950854373-6892540126573 \
-            -d '{"id":"${{github.action}}","deploymentStatus":"Deployed"}'
+            -d '{"id": 0,"storageAccountName": "string","searchServiceName": "string","openAIServiceName": "string","appServicePlanName": "string","appPlanSku": "string"}'
+#            -d '{"id":"${{github.action}}","deploymentStatus":"Deployed"}'
