@@ -11,6 +11,6 @@ jobs:
             -H 'X-Status: Awesome' \
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer 12345' \
-            https://www.toptal.com/developers/postbin/1712952682534-0215321511495 \
-            -d '{"id": 0,"storageAccountName": "${{github.action}}","searchServiceName": "${{github.action}}","openAIServiceName": "${{github.action}}","appServicePlanName": "${{github.action}}","appPlanSku": "${{github.action}}"}'
-#            -d '{"id":"${{github.action}}","deploymentStatus":"Deployed"}'
+            https://1833kkkn-7178.uks1.devtunnels.ms/api/update-app-pool-deployment \
+            -d '{"id":"33","deploymentStatus":"Deployed"}'
+#            -d '{"id": 0,"storageAccountName": "${{github.action}}","searchServiceName": "${{github.action}}","openAIServiceName": "${{github.action}}","appServicePlanName": "${{github.action}}","appPlanSku": "${{github.action}}"}'
