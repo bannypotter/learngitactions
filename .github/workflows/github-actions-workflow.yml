@@ -4,7 +4,7 @@ env:
   STARTUP_COMMAND: ''
   
 name: GitHub Actions Demo
-on: push
+on: workflow_dispatch
 jobs:
   build:
     name: Build
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Run webhook
         run: |
-          curl -H 'X-Status: Awesome' https://www.toptal.com/developers/postbin/1712950287334-0518085097428
+          curl -H 'X-Status: Awesome' -H 'Content-Type: application/json' https://www.toptal.com/developers/postbin/1712950287334-0518085097428 -d '{ "Id": 1 }'
 
       - name: Check out repository code
         uses: actions/checkout@v4  
