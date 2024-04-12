@@ -7,4 +7,7 @@ jobs:
         steps:
         - uses: actions/checkout@v3
 
-        - run: ./deployment/updateAppPoolsStatusScript.ps1 -authToken 123 -appPoolId 33 -deploymentStatus Deploying
+        - uses: azure/powershell@v2
+          with:
+            inlineScript:  ./deployment/updateAppPoolsStatusScript.ps1 -authToken 123 -appPoolId 33 -deploymentStatus Deploying
+            azPSVersion: "latest"
