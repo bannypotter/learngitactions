@@ -7,8 +7,8 @@ jobs:
         steps:
         - name: Run webhook
           run: |
-            curl \
+            $(curl \
             -H 'X-Status: Awesome' \
             -H 'Content-Type: application/json' \
             -d { "id":"${{github.event.workflow}}","deploymentStatus": "Deployed" } \
-            https://www.toptal.com/developers/postbin/1712950287334-0518085097428
+            https://www.toptal.com/developers/postbin/1712950287334-0518085097428)
