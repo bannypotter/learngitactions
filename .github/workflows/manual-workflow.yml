@@ -10,5 +10,5 @@ jobs:
             curl \
             -H 'X-Status: Awesome' \
             -H 'Content-Type: application/json' \
-            https://www.toptal.com/developers/postbin/1712950287334-0518085097428 \
+            https://www.toptal.com/developers/postbin/1712950854373-6892540126573 \
             -d '{"id":"x","deploymentStatus":"Deployed"}'
